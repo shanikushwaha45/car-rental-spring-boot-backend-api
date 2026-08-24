@@ -1,0 +1,13 @@
+package com.shani.car_rental_api_spring_boot_project.repository;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.shani.car_rental_api_spring_boot_project.entity.Customer;
+@Repository
+public interface CustomeRepository extends JpaRepository<Customer, Long>{
+	Optional<Customer> findByEmail(String email);
+
+}
