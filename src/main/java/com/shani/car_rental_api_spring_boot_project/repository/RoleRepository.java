@@ -9,4 +9,6 @@ import com.shani.car_rental_api_spring_boot_project.entity.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long>{
 	Optional<Role> findByName(String name);
+	
+	
 }
