@@ -19,7 +19,7 @@ public class CarRentalSecurityConfig {
 		
 		http.csrf(c->c.disable())
 		.authorizeHttpRequests(auth->auth
-				.requestMatchers("/api/v1auth**/").permitAll()
+				.requestMatchers("/api/v1/auth/**").permitAll()
 				.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
 				.anyRequest()
 				.authenticated()
