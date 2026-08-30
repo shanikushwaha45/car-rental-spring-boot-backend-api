@@ -35,6 +35,8 @@ public class CarRentalApiExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(errorResponse);
 	}
 	
+	
+	@ExceptionHandler(value=MethodArgumentNotValidException.class)
 	public ResponseEntity<Map<String,String>> methodArgumentNotValidException(MethodArgumentNotValidException e){
 		List<FieldError> fieldErrors=e.getFieldErrors();
 		Map<String,String> map=new LinkedHashMap<>();
@@ -43,5 +45,34 @@ public class CarRentalApiExceptionHandler {
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(map);
 	}
+	
+	@ExceptionHandler(value = InvalidEmailException.class)
+	public ResponseEntity<ErrorResponse> invalidEmailException(InvalidEmailException e){
+		ErrorResponse errorResponse=new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
+		
+		LOGGER.warn("email is wrong "+e.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+	}
+	@ExceptionHandler(value = InvalidPasswordException.class)
+	public ResponseEntity<ErrorResponse> invalidPasswordException(InvalidPasswordException e){
+		ErrorResponse errorResponse=new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
+		
+		LOGGER.warn("password is wrong "+e.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+	}
+	
+	@ExceptionHandler(value=CarNotFoundException.class)
+	public ResponseEntity<ErrorResponse> carNotFoundException(CarNotFoundException e){
+	
+
+		ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
+		
+		LOGGER.warn("given Car is not found"+e.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(errorResponse);
+	}
+	
 
 }

@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shani.car_rental_api_spring_boot_project.dto.CarOwnerRequestDto;
 import com.shani.car_rental_api_spring_boot_project.dto.CarOwnerResponseDto;
+import com.shani.car_rental_api_spring_boot_project.dto.LogInRequestDto;
 import com.shani.car_rental_api_spring_boot_project.entity.Role;
 import com.shani.car_rental_api_spring_boot_project.repository.CarOwnerRepository;
 import com.shani.car_rental_api_spring_boot_project.service.CarOwnerService;
 import com.shani.car_rental_api_spring_boot_project.service.RoleService;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -50,5 +54,10 @@ public class AuthController {
 	@PostMapping("/saveRole")
 	public Role saveRoleService(@RequestBody Role role) {
 		return roleService.saveRole(role);
+	}
+	
+	@PostMapping("/loginCarOwner")
+	public ResponseEntity<?> loginCarOwner(@RequestBody @Valid LogInRequestDto requestDto,HttpSession httpSession){
+		return carOwnerService.loginCarOwnerService(requestDto, httpSession);
 	}
 }
