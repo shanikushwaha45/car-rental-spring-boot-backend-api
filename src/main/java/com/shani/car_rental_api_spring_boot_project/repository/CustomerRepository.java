@@ -7,7 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import com.shani.car_rental_api_spring_boot_project.entity.Customer;
 @Repository
-public interface CustomeRepository extends JpaRepository<Customer, Long>{
+public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	Optional<Customer> findByEmail(String email);
+	
+	
+	public boolean existsByEmail(String email);
+	
+	
 
 }

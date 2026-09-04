@@ -91,5 +91,11 @@ public class CarService {
 		 }
 		 return dtos;
 	}
+	public Car getCarByIdService(Long carId) {
+
+		return carRepository.findById(carId)
+				.orElseThrow(() -> new RuntimeException("Car with id " + carId + " not found"));
+
+	}
 
 }

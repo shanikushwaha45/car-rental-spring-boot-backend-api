@@ -16,24 +16,26 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(prePostEnabled = true)
 public class CarRentalSecurityConfig {
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-		
-		http.csrf(c->c.disable())
-		.authorizeHttpRequests(auth->auth
-				.requestMatchers("/api/v1/auth/**").permitAll()
-				.requestMatchers("/api/v1/carOwner/**").permitAll()
-				.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-				.requestMatchers("/carController/**").permitAll()
-				.anyRequest()
-				.authenticated()
-				)
-		.httpBasic(Customizer.withDefaults());
-		
-		return http.build();
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+	    http
+	        .csrf(c -> c.disable())
+	        .cors(Customizer.withDefaults())
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers("/api/v1/auth/**").permitAll()
+	            .requestMatchers("/api/v1/carOwner/**").permitAll()
+	            .requestMatchers("/api/v1/customer/**").permitAll()
+	            .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+	            .requestMatchers("/carController/**").permitAll()
+	            .anyRequest().authenticated()
+	        )
+	        .httpBasic(Customizer.withDefaults());
+
+	    return http.build();
 	}
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	    return new BCryptPasswordEncoder();
 	}
 	
 }

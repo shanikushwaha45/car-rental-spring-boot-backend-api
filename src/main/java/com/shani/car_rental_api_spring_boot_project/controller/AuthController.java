@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shani.car_rental_api_spring_boot_project.dto.CarOwnerRequestDto;
 import com.shani.car_rental_api_spring_boot_project.dto.CarOwnerResponseDto;
+import com.shani.car_rental_api_spring_boot_project.dto.CustomerRequestDto;
+import com.shani.car_rental_api_spring_boot_project.dto.CustomerResponseDto;
 import com.shani.car_rental_api_spring_boot_project.dto.LogInRequestDto;
 import com.shani.car_rental_api_spring_boot_project.entity.Role;
 import com.shani.car_rental_api_spring_boot_project.repository.CarOwnerRepository;
 import com.shani.car_rental_api_spring_boot_project.service.CarOwnerService;
+import com.shani.car_rental_api_spring_boot_project.service.CustomerService;
 import com.shani.car_rental_api_spring_boot_project.service.RoleService;
 
 import jakarta.servlet.http.HttpSession;
@@ -29,6 +32,10 @@ public class AuthController {
 	
 	private final RoleService roleService;
 	
+	private final HttpSession httpSession;
+	
+	private final CustomerService customerService;
+	
 	private static final Logger LOGGER =org.slf4j.LoggerFactory.getLogger(AuthController.class);
 	
 	@PostMapping("/registerCarOwner")
@@ -40,17 +47,19 @@ public class AuthController {
 	}
 	
 	@PostMapping("/registerCustomer")
-	public ResponseEntity<?> registerCustomer(){
-		return ResponseEntity.ok("Customer registered");
+	public ResponseEntity<CustomerResponseDto> registerCustomer(@RequestBody @Valid CustomerRequestDto requestDTO){
+		
+		return customerService.registerCustomer(requestDTO);
 	}
-	@GetMapping("/loginCustomer")
-	public ResponseEntity<?> loginCustomer(){
-		return ResponseEntity.ok("Customer logged in success");
+	@PostMapping("/loginCustomer")
+	public ResponseEntity<?> loginCustomer(@RequestBody @Valid LogInRequestDto requestDto,HttpSession httpSession){
+		
+		return customerService.loginCustomer(requestDto, httpSession);
 	}
-	@GetMapping("/loginCarOwner")
-	public ResponseEntity<?> loginCarOwner(){
-		return ResponseEntity.ok("Car owner logged in success");
-	}
+//	@PostMapping("/loginCarOwner")
+//	public ResponseEntity<?> loginCarOwner(@RequestBody LogInRequestDto logDto){
+//		return carOwnerService.loginCarOwnerService(logDto, httpSession);
+//	}
 	@PostMapping("/saveRole")
 	public Role saveRoleService(@RequestBody Role role) {
 		return roleService.saveRole(role);
